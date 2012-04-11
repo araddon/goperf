@@ -82,11 +82,13 @@ var (
 
 func init() {
 	thtw = *th.NewThriftTweet()
+	// create structs, maps by using json data to do initial population
 	json.Unmarshal([]byte(jsons), &tw)
 	json.Unmarshal([]byte(jsons), &pbtw)
 	json.Unmarshal([]byte(jsons), &twl)
 	json.Unmarshal([]byte(jsons), &thtw)
 
+	// create by values per serialization type
 	bsonTweet, _ = bson.Marshal(&tw)
 	jsonTweet = []byte(jsons)
 	protoTw, _ = proto.Marshal(pbtw)
@@ -210,12 +212,12 @@ func BenchmarkDecodingPBTweetStruct(b *testing.B) {
 func BenchmarkEncodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = msgpack.Marshal(msgpackTw)
+		_, _ = msgpack.Marshal(&tw)
 	}
 }
 
-// BenchmarkEncodingMPTweetStruct	  500000	      5247 ns/op
-// = 190585/sec
+// BenchmarkEncodingMPTweetStruct	  10000	      120501 ns/op
+// = 8,330/sec
 
 func BenchmarkDecodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()
