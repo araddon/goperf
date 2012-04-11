@@ -205,7 +205,7 @@ func BenchmarkDecodingPBTweetStruct(b *testing.B) {
 }
 
 // BenchmarkDecodingPBTweetStruct	  1000000	      1991 ns/op
-// = 190,585/sec
+// = 502,260/sec
 
 func BenchmarkEncodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -215,7 +215,7 @@ func BenchmarkEncodingMPTweetStruct(b *testing.B) {
 }
 
 // BenchmarkEncodingMPTweetStruct	  500000	      5247 ns/op
-// = 9,802/sec
+// = 190585/sec
 
 func BenchmarkDecodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -226,7 +226,7 @@ func BenchmarkDecodingMPTweetStruct(b *testing.B) {
 }
 
 // BenchmarkDecodingMPTweetStruct	  10000	      102020 ns/op
-// = 778,816/sec
+// = 9,802/sec
 
 func BenchmarkEncodingThriftTweetStruct(b *testing.B) {
 	b.StartTimer()
