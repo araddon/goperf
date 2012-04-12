@@ -10,6 +10,8 @@ import (
 	"launchpad.net/mgo/bson"
 	"net/url"
 	"testing"
+
+	"log"
 )
 
 /*
@@ -81,17 +83,22 @@ var (
 )
 
 func init() {
+	log.SetFlags(log.Ltime | log.Lshortfile)
+
 	thtw = *th.NewThriftTweet()
 	// create structs, maps by using json data to do initial population
 	json.Unmarshal([]byte(jsons), &tw)
 	json.Unmarshal([]byte(jsons), &pbtw)
 	json.Unmarshal([]byte(jsons), &twl)
 	json.Unmarshal([]byte(jsons), &thtw)
-
+	//log.Println("pbtw\n", pbtw)
 	// create by values per serialization type
 	bsonTweet, _ = bson.Marshal(&tw)
 	jsonTweet = []byte(jsons)
-	protoTw, _ = proto.Marshal(pbtw)
+	protoTw, _ = proto.Marshal(&pbtw)
+	//ptw2, err := proto.Marshal(&pbtw)
+	//log.Println(err)
+	//log.Println(ptw2)
 	msgpackTw, _ = msgpack.Marshal(tw)
 
 	buf := thrift.NewTMemoryBuffer()
@@ -191,12 +198,12 @@ func BenchmarkDecodingQueryNV(b *testing.B) {
 func BenchmarkEncodingPBTweetStruct(b *testing.B) {
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = proto.Marshal(pbtw)
+		_, _ = proto.Marshal(&pbtw)
 	}
 }
 
-// BenchmarkEncodingPBTweetStruct	  1000000	      1284 ns/op
-// = 778,816/sec
+// BenchmarkEncodingPBTweetStruct	  200000	      13181 ns/op
+// = 75,867/sec
 
 func BenchmarkDecodingPBTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -206,8 +213,8 @@ func BenchmarkDecodingPBTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingPBTweetStruct	  1000000	      1991 ns/op
-// = 502,260/sec
+// BenchmarkDecodingPBTweetStruct	  100000	      1991 ns/op
+// = 51,120/sec
 
 func BenchmarkEncodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()

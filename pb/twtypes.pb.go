@@ -11,19 +11,19 @@ var _ = proto.GetString
 var _ = math.Inf
 
 type Tweet struct {
-	Text                *string `protobuf:"bytes,1,req,name=text" json:"text,omitempty"`
-	Truncated           *bool   `protobuf:"varint,2,req,name=truncated" json:"truncated,omitempty"`
-	Geo                 *string `protobuf:"bytes,3,req,name=geo" json:"geo,omitempty"`
-	InReplyToScreenName *string `protobuf:"bytes,4,req,name=in_reply_to_screen_name" json:"in_reply_to_screen_name,omitempty"`
-	Favorited           *bool   `protobuf:"varint,5,req,name=favorited" json:"favorited,omitempty"`
-	Source              *string `protobuf:"bytes,6,req,name=source" json:"source,omitempty"`
-	Contributors        *string `protobuf:"bytes,7,req,name=contributors" json:"contributors,omitempty"`
-	InReplyToStatusId   *string `protobuf:"bytes,8,req,name=in_reply_to_status_id" json:"in_reply_to_status_id,omitempty"`
-	InReplyToUserId     *int64  `protobuf:"varint,9,req,name=in_reply_to_user_id" json:"in_reply_to_user_id,omitempty"`
-	Id                  *int64  `protobuf:"varint,10,req,name=id" json:"id,omitempty"`
-	IdStr               *string `protobuf:"bytes,11,req,name=id_str" json:"id_str,omitempty"`
-	CreatedAt           *string `protobuf:"bytes,12,req,name=created_at" json:"created_at,omitempty"`
-	User                *User   `protobuf:"bytes,13,req,name=user" json:"user,omitempty"`
+	Text                *string `protobuf:"bytes,1,opt,name=text" json:"text,omitempty"`
+	Truncated           *bool   `protobuf:"varint,2,opt,name=truncated" json:"truncated,omitempty"`
+	Geo                 *string `protobuf:"bytes,3,opt,name=geo" json:"geo,omitempty"`
+	InReplyToScreenName *string `protobuf:"bytes,4,opt,name=in_reply_to_screen_name" json:"in_reply_to_screen_name,omitempty"`
+	Favorited           *bool   `protobuf:"varint,5,opt,name=favorited" json:"favorited,omitempty"`
+	Source              *string `protobuf:"bytes,6,opt,name=source" json:"source,omitempty"`
+	Contributors        *string `protobuf:"bytes,7,opt,name=contributors" json:"contributors,omitempty"`
+	InReplyToStatusId   *string `protobuf:"bytes,8,opt,name=in_reply_to_status_id" json:"in_reply_to_status_id,omitempty"`
+	InReplyToUserId     *int64  `protobuf:"varint,9,opt,name=in_reply_to_user_id" json:"in_reply_to_user_id,omitempty"`
+	Id                  *int64  `protobuf:"varint,10,opt,name=id" json:"id,omitempty"`
+	IdStr               *string `protobuf:"bytes,11,opt,name=id_str" json:"id_str,omitempty"`
+	CreatedAt           *string `protobuf:"bytes,12,opt,name=created_at" json:"created_at,omitempty"`
+	User                *User   `protobuf:"bytes,13,opt,name=user" json:"user,omitempty"`
 	XXX_unrecognized    []byte  `json:"-"`
 }
 
@@ -31,34 +31,34 @@ func (this *Tweet) Reset()         { *this = Tweet{} }
 func (this *Tweet) String() string { return proto.CompactTextString(this) }
 
 type User struct {
-	Lang                      *string `protobuf:"bytes,1,req,name=lang" json:"lang,omitempty"`
-	Verified                  *bool   `protobuf:"varint,2,req,name=verified" json:"verified,omitempty"`
-	FollowersCount            *int32  `protobuf:"varint,3,req,name=followers_count" json:"followers_count,omitempty"`
-	Location                  *string `protobuf:"bytes,4,req,name=location" json:"location,omitempty"`
-	ScreenName                *string `protobuf:"bytes,5,req,name=screen_name" json:"screen_name,omitempty"`
-	Following                 *bool   `protobuf:"varint,6,req,name=following" json:"following,omitempty"`
-	FriendsCount              *int32  `protobuf:"varint,7,req,name=friends_count" json:"friends_count,omitempty"`
-	ProfileBackgroundColor    *string `protobuf:"bytes,8,req,name=profile_background_color" json:"profile_background_color,omitempty"`
-	FavouritesCount           *int32  `protobuf:"varint,9,req,name=favourites_count" json:"favourites_count,omitempty"`
-	Description               *string `protobuf:"bytes,10,req,name=description" json:"description,omitempty"`
-	Notifications             *string `protobuf:"bytes,11,req,name=notifications" json:"notifications,omitempty"`
-	ProfileTextColor          *string `protobuf:"bytes,12,req,name=profile_text_color" json:"profile_text_color,omitempty"`
-	Url                       *string `protobuf:"bytes,13,req,name=url" json:"url,omitempty"`
-	TimeZone                  *string `protobuf:"bytes,14,req,name=time_zone" json:"time_zone,omitempty"`
-	StatusesCount             *int32  `protobuf:"varint,15,req,name=statuses_count" json:"statuses_count,omitempty"`
-	ProfileLinkColor          *string `protobuf:"bytes,16,req,name=profile_link_color" json:"profile_link_color,omitempty"`
-	GeoEnabled                *bool   `protobuf:"varint,17,req,name=geo_enabled" json:"geo_enabled,omitempty"`
-	ProfileBackgroundImageUrl *string `protobuf:"bytes,18,req,name=profile_background_image_url" json:"profile_background_image_url,omitempty"`
-	Protected                 *bool   `protobuf:"varint,19,req,name=protected" json:"protected,omitempty"`
-	ContributorsEnabled       *bool   `protobuf:"varint,20,req,name=contributors_enabled" json:"contributors_enabled,omitempty"`
-	ProfileSidebarFillColor   *string `protobuf:"bytes,21,req,name=profile_sidebar_fill_color" json:"profile_sidebar_fill_color,omitempty"`
-	Name                      *string `protobuf:"bytes,22,req,name=name" json:"name,omitempty"`
-	ProfileBackgroundTile     *string `protobuf:"bytes,23,req,name=profile_background_tile" json:"profile_background_tile,omitempty"`
-	CreatedAt                 *string `protobuf:"bytes,24,req,name=created_at" json:"created_at,omitempty"`
-	ProfileImageUrl           *string `protobuf:"bytes,25,req,name=profile_image_url" json:"profile_image_url,omitempty"`
-	Id                        *int64  `protobuf:"varint,26,req,name=id" json:"id,omitempty"`
-	UtcOffset                 *int32  `protobuf:"varint,27,req,name=utc_offset" json:"utc_offset,omitempty"`
-	ProfileSidebarBorderColor *string `protobuf:"bytes,28,req,name=profile_sidebar_border_color" json:"profile_sidebar_border_color,omitempty"`
+	Lang                      *string `protobuf:"bytes,1,opt,name=lang" json:"lang,omitempty"`
+	Verified                  *bool   `protobuf:"varint,2,opt,name=verified" json:"verified,omitempty"`
+	FollowersCount            *int32  `protobuf:"varint,3,opt,name=followers_count" json:"followers_count,omitempty"`
+	Location                  *string `protobuf:"bytes,4,opt,name=location" json:"location,omitempty"`
+	ScreenName                *string `protobuf:"bytes,5,opt,name=screen_name" json:"screen_name,omitempty"`
+	Following                 *bool   `protobuf:"varint,6,opt,name=following" json:"following,omitempty"`
+	FriendsCount              *int32  `protobuf:"varint,7,opt,name=friends_count" json:"friends_count,omitempty"`
+	ProfileBackgroundColor    *string `protobuf:"bytes,8,opt,name=profile_background_color" json:"profile_background_color,omitempty"`
+	FavouritesCount           *int32  `protobuf:"varint,9,opt,name=favourites_count" json:"favourites_count,omitempty"`
+	Description               *string `protobuf:"bytes,10,opt,name=description" json:"description,omitempty"`
+	Notifications             *string `protobuf:"bytes,11,opt,name=notifications" json:"notifications,omitempty"`
+	ProfileTextColor          *string `protobuf:"bytes,12,opt,name=profile_text_color" json:"profile_text_color,omitempty"`
+	Url                       *string `protobuf:"bytes,13,opt,name=url" json:"url,omitempty"`
+	TimeZone                  *string `protobuf:"bytes,14,opt,name=time_zone" json:"time_zone,omitempty"`
+	StatusesCount             *int32  `protobuf:"varint,15,opt,name=statuses_count" json:"statuses_count,omitempty"`
+	ProfileLinkColor          *string `protobuf:"bytes,16,opt,name=profile_link_color" json:"profile_link_color,omitempty"`
+	GeoEnabled                *bool   `protobuf:"varint,17,opt,name=geo_enabled" json:"geo_enabled,omitempty"`
+	ProfileBackgroundImageUrl *string `protobuf:"bytes,18,opt,name=profile_background_image_url" json:"profile_background_image_url,omitempty"`
+	Protected                 *bool   `protobuf:"varint,19,opt,name=protected" json:"protected,omitempty"`
+	ContributorsEnabled       *bool   `protobuf:"varint,20,opt,name=contributors_enabled" json:"contributors_enabled,omitempty"`
+	ProfileSidebarFillColor   *string `protobuf:"bytes,21,opt,name=profile_sidebar_fill_color" json:"profile_sidebar_fill_color,omitempty"`
+	Name                      *string `protobuf:"bytes,22,opt,name=name" json:"name,omitempty"`
+	ProfileBackgroundTile     *string `protobuf:"bytes,23,opt,name=profile_background_tile" json:"profile_background_tile,omitempty"`
+	CreatedAt                 *string `protobuf:"bytes,24,opt,name=created_at" json:"created_at,omitempty"`
+	ProfileImageUrl           *string `protobuf:"bytes,25,opt,name=profile_image_url" json:"profile_image_url,omitempty"`
+	Id                        *int64  `protobuf:"varint,26,opt,name=id" json:"id,omitempty"`
+	UtcOffset                 *int32  `protobuf:"varint,27,opt,name=utc_offset" json:"utc_offset,omitempty"`
+	ProfileSidebarBorderColor *string `protobuf:"bytes,28,opt,name=profile_sidebar_border_color" json:"profile_sidebar_border_color,omitempty"`
 	XXX_unrecognized          []byte  `json:"-"`
 }
 
