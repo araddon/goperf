@@ -1,7 +1,9 @@
 package goperf
 
 import (
+	"bytes"
 	"code.google.com/p/goprotobuf/proto"
+	"encoding/gob"
 	"encoding/json"
 	"github.com/araddon/goperf/pb"
 	"github.com/araddon/goperf/th"
@@ -75,6 +77,7 @@ var (
 	protoTw   []byte
 	thriftTw  []byte
 	msgpackTw []byte
+	gobTw     bytes.Buffer
 	tw        Tweet
 	twl       map[string]interface{}
 	pbtw      pb.Tweet
@@ -100,6 +103,8 @@ func init() {
 	//log.Println(err)
 	//log.Println(ptw2)
 	msgpackTw, _ = msgpack.Marshal(tw)
+	enc := gob.NewEncoder(&gobTw)
+	_ = enc.Encode(tw)
 
 	buf := thrift.NewTMemoryBuffer()
 	thbp := thrift.NewTBinaryProtocol(buf, false, true)
@@ -124,6 +129,7 @@ func BenchmarkEncodingJsonTweetStruct(b *testing.B) {
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		_, _ = json.Marshal(&tw)
+		//log.Println(data)
 	}
 }
 
@@ -151,6 +157,31 @@ func BenchmarkDecodingJsonTweetStruct(b *testing.B) {
 
 // BenchmarkDecodingJsonTweetStruct	    2000	   1137723 ns/op
 //  = 873/sec
+
+func BenchmarkEncodingGobTweetStruct(b *testing.B) {
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		var bb bytes.Buffer
+		enc := gob.NewEncoder(&bb)
+		_ = enc.Encode(tw)
+		_ = bb.Bytes()
+	}
+}
+
+// BenchmarkEncodingGobTweetStruct	   20000	     84273 ns/op
+// = 11,866/sec
+
+func BenchmarkDecodingGobTweet(b *testing.B) {
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		tw := Tweet{}
+		dec := gob.NewDecoder(&gobTw)
+		_ = dec.Decode(&tw)
+	}
+}
+
+// BenchmarkDecodingGobTweet	   500000	     3879 ns/op
+//  = 257,798/sec
 
 func BenchmarkEncodingBsonTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -213,8 +244,8 @@ func BenchmarkDecodingPBTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingPBTweetStruct	  100000	      1991 ns/op
-// = 51,120/sec
+// BenchmarkDecodingPBTweetStruct	  100000	      18960 ns/op
+// = 52,743/sec
 
 func BenchmarkEncodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()
