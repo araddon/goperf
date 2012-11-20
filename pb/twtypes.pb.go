@@ -7,28 +7,145 @@ import proto "code.google.com/p/goprotobuf/proto"
 import "math"
 
 // Reference proto and math imports to suppress error if they are not otherwise used.
-var _ = proto.GetString
+var _ = proto.Marshal
 var _ = math.Inf
 
 type Tweet struct {
-	Text                *string `protobuf:"bytes,1,opt,name=text" json:"text,omitempty"`
-	Truncated           *bool   `protobuf:"varint,2,opt,name=truncated" json:"truncated,omitempty"`
-	Geo                 *string `protobuf:"bytes,3,opt,name=geo" json:"geo,omitempty"`
-	InReplyToScreenName *string `protobuf:"bytes,4,opt,name=in_reply_to_screen_name" json:"in_reply_to_screen_name,omitempty"`
-	Favorited           *bool   `protobuf:"varint,5,opt,name=favorited" json:"favorited,omitempty"`
-	Source              *string `protobuf:"bytes,6,opt,name=source" json:"source,omitempty"`
-	Contributors        *string `protobuf:"bytes,7,opt,name=contributors" json:"contributors,omitempty"`
-	InReplyToStatusId   *string `protobuf:"bytes,8,opt,name=in_reply_to_status_id" json:"in_reply_to_status_id,omitempty"`
-	InReplyToUserId     *int64  `protobuf:"varint,9,opt,name=in_reply_to_user_id" json:"in_reply_to_user_id,omitempty"`
-	Id                  *int64  `protobuf:"varint,10,opt,name=id" json:"id,omitempty"`
-	IdStr               *string `protobuf:"bytes,11,opt,name=id_str" json:"id_str,omitempty"`
-	CreatedAt           *string `protobuf:"bytes,12,opt,name=created_at" json:"created_at,omitempty"`
-	User                *User   `protobuf:"bytes,13,opt,name=user" json:"user,omitempty"`
-	XXX_unrecognized    []byte  `json:"-"`
+	Text                *string         `protobuf:"bytes,1,opt,name=text" json:"text,omitempty"`
+	Truncated           *bool           `protobuf:"varint,2,opt,name=truncated" json:"truncated,omitempty"`
+	Geo                 *string         `protobuf:"bytes,3,opt,name=geo" json:"geo,omitempty"`
+	InReplyToScreenName *string         `protobuf:"bytes,4,opt,name=in_reply_to_screen_name" json:"in_reply_to_screen_name,omitempty"`
+	Favorited           *bool           `protobuf:"varint,5,opt,name=favorited" json:"favorited,omitempty"`
+	Source              *string         `protobuf:"bytes,6,opt,name=source" json:"source,omitempty"`
+	Contributors        *string         `protobuf:"bytes,7,opt,name=contributors" json:"contributors,omitempty"`
+	InReplyToStatusId   *string         `protobuf:"bytes,8,opt,name=in_reply_to_status_id" json:"in_reply_to_status_id,omitempty"`
+	InReplyToUserId     *int64          `protobuf:"varint,9,opt,name=in_reply_to_user_id" json:"in_reply_to_user_id,omitempty"`
+	Id                  *int64          `protobuf:"varint,10,opt,name=id" json:"id,omitempty"`
+	IdStr               *string         `protobuf:"bytes,11,opt,name=id_str" json:"id_str,omitempty"`
+	CreatedAt           *string         `protobuf:"bytes,12,opt,name=created_at" json:"created_at,omitempty"`
+	User                *User           `protobuf:"bytes,13,opt,name=user" json:"user,omitempty"`
+	Header              []*Tweet_Header `protobuf:"bytes,14,rep,name=header" json:"header,omitempty"`
+	XXX_unrecognized    []byte          `json:"-"`
 }
 
 func (this *Tweet) Reset()         { *this = Tweet{} }
 func (this *Tweet) String() string { return proto.CompactTextString(this) }
+func (*Tweet) ProtoMessage()       {}
+
+func (this *Tweet) GetText() string {
+	if this != nil && this.Text != nil {
+		return *this.Text
+	}
+	return ""
+}
+
+func (this *Tweet) GetTruncated() bool {
+	if this != nil && this.Truncated != nil {
+		return *this.Truncated
+	}
+	return false
+}
+
+func (this *Tweet) GetGeo() string {
+	if this != nil && this.Geo != nil {
+		return *this.Geo
+	}
+	return ""
+}
+
+func (this *Tweet) GetInReplyToScreenName() string {
+	if this != nil && this.InReplyToScreenName != nil {
+		return *this.InReplyToScreenName
+	}
+	return ""
+}
+
+func (this *Tweet) GetFavorited() bool {
+	if this != nil && this.Favorited != nil {
+		return *this.Favorited
+	}
+	return false
+}
+
+func (this *Tweet) GetSource() string {
+	if this != nil && this.Source != nil {
+		return *this.Source
+	}
+	return ""
+}
+
+func (this *Tweet) GetContributors() string {
+	if this != nil && this.Contributors != nil {
+		return *this.Contributors
+	}
+	return ""
+}
+
+func (this *Tweet) GetInReplyToStatusId() string {
+	if this != nil && this.InReplyToStatusId != nil {
+		return *this.InReplyToStatusId
+	}
+	return ""
+}
+
+func (this *Tweet) GetInReplyToUserId() int64 {
+	if this != nil && this.InReplyToUserId != nil {
+		return *this.InReplyToUserId
+	}
+	return 0
+}
+
+func (this *Tweet) GetId() int64 {
+	if this != nil && this.Id != nil {
+		return *this.Id
+	}
+	return 0
+}
+
+func (this *Tweet) GetIdStr() string {
+	if this != nil && this.IdStr != nil {
+		return *this.IdStr
+	}
+	return ""
+}
+
+func (this *Tweet) GetCreatedAt() string {
+	if this != nil && this.CreatedAt != nil {
+		return *this.CreatedAt
+	}
+	return ""
+}
+
+func (this *Tweet) GetUser() *User {
+	if this != nil {
+		return this.User
+	}
+	return nil
+}
+
+type Tweet_Header struct {
+	Name             *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	Value            *string `protobuf:"bytes,2,opt,name=value" json:"value,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (this *Tweet_Header) Reset()         { *this = Tweet_Header{} }
+func (this *Tweet_Header) String() string { return proto.CompactTextString(this) }
+func (*Tweet_Header) ProtoMessage()       {}
+
+func (this *Tweet_Header) GetName() string {
+	if this != nil && this.Name != nil {
+		return *this.Name
+	}
+	return ""
+}
+
+func (this *Tweet_Header) GetValue() string {
+	if this != nil && this.Value != nil {
+		return *this.Value
+	}
+	return ""
+}
 
 type User struct {
 	Lang                      *string `protobuf:"bytes,1,opt,name=lang" json:"lang,omitempty"`
@@ -64,6 +181,203 @@ type User struct {
 
 func (this *User) Reset()         { *this = User{} }
 func (this *User) String() string { return proto.CompactTextString(this) }
+func (*User) ProtoMessage()       {}
+
+func (this *User) GetLang() string {
+	if this != nil && this.Lang != nil {
+		return *this.Lang
+	}
+	return ""
+}
+
+func (this *User) GetVerified() bool {
+	if this != nil && this.Verified != nil {
+		return *this.Verified
+	}
+	return false
+}
+
+func (this *User) GetFollowersCount() int32 {
+	if this != nil && this.FollowersCount != nil {
+		return *this.FollowersCount
+	}
+	return 0
+}
+
+func (this *User) GetLocation() string {
+	if this != nil && this.Location != nil {
+		return *this.Location
+	}
+	return ""
+}
+
+func (this *User) GetScreenName() string {
+	if this != nil && this.ScreenName != nil {
+		return *this.ScreenName
+	}
+	return ""
+}
+
+func (this *User) GetFollowing() bool {
+	if this != nil && this.Following != nil {
+		return *this.Following
+	}
+	return false
+}
+
+func (this *User) GetFriendsCount() int32 {
+	if this != nil && this.FriendsCount != nil {
+		return *this.FriendsCount
+	}
+	return 0
+}
+
+func (this *User) GetProfileBackgroundColor() string {
+	if this != nil && this.ProfileBackgroundColor != nil {
+		return *this.ProfileBackgroundColor
+	}
+	return ""
+}
+
+func (this *User) GetFavouritesCount() int32 {
+	if this != nil && this.FavouritesCount != nil {
+		return *this.FavouritesCount
+	}
+	return 0
+}
+
+func (this *User) GetDescription() string {
+	if this != nil && this.Description != nil {
+		return *this.Description
+	}
+	return ""
+}
+
+func (this *User) GetNotifications() string {
+	if this != nil && this.Notifications != nil {
+		return *this.Notifications
+	}
+	return ""
+}
+
+func (this *User) GetProfileTextColor() string {
+	if this != nil && this.ProfileTextColor != nil {
+		return *this.ProfileTextColor
+	}
+	return ""
+}
+
+func (this *User) GetUrl() string {
+	if this != nil && this.Url != nil {
+		return *this.Url
+	}
+	return ""
+}
+
+func (this *User) GetTimeZone() string {
+	if this != nil && this.TimeZone != nil {
+		return *this.TimeZone
+	}
+	return ""
+}
+
+func (this *User) GetStatusesCount() int32 {
+	if this != nil && this.StatusesCount != nil {
+		return *this.StatusesCount
+	}
+	return 0
+}
+
+func (this *User) GetProfileLinkColor() string {
+	if this != nil && this.ProfileLinkColor != nil {
+		return *this.ProfileLinkColor
+	}
+	return ""
+}
+
+func (this *User) GetGeoEnabled() bool {
+	if this != nil && this.GeoEnabled != nil {
+		return *this.GeoEnabled
+	}
+	return false
+}
+
+func (this *User) GetProfileBackgroundImageUrl() string {
+	if this != nil && this.ProfileBackgroundImageUrl != nil {
+		return *this.ProfileBackgroundImageUrl
+	}
+	return ""
+}
+
+func (this *User) GetProtected() bool {
+	if this != nil && this.Protected != nil {
+		return *this.Protected
+	}
+	return false
+}
+
+func (this *User) GetContributorsEnabled() bool {
+	if this != nil && this.ContributorsEnabled != nil {
+		return *this.ContributorsEnabled
+	}
+	return false
+}
+
+func (this *User) GetProfileSidebarFillColor() string {
+	if this != nil && this.ProfileSidebarFillColor != nil {
+		return *this.ProfileSidebarFillColor
+	}
+	return ""
+}
+
+func (this *User) GetName() string {
+	if this != nil && this.Name != nil {
+		return *this.Name
+	}
+	return ""
+}
+
+func (this *User) GetProfileBackgroundTile() string {
+	if this != nil && this.ProfileBackgroundTile != nil {
+		return *this.ProfileBackgroundTile
+	}
+	return ""
+}
+
+func (this *User) GetCreatedAt() string {
+	if this != nil && this.CreatedAt != nil {
+		return *this.CreatedAt
+	}
+	return ""
+}
+
+func (this *User) GetProfileImageUrl() string {
+	if this != nil && this.ProfileImageUrl != nil {
+		return *this.ProfileImageUrl
+	}
+	return ""
+}
+
+func (this *User) GetId() int64 {
+	if this != nil && this.Id != nil {
+		return *this.Id
+	}
+	return 0
+}
+
+func (this *User) GetUtcOffset() int32 {
+	if this != nil && this.UtcOffset != nil {
+		return *this.UtcOffset
+	}
+	return 0
+}
+
+func (this *User) GetProfileSidebarBorderColor() string {
+	if this != nil && this.ProfileSidebarBorderColor != nil {
+		return *this.ProfileSidebarBorderColor
+	}
+	return ""
+}
 
 func init() {
 }

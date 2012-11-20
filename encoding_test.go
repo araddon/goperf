@@ -8,8 +8,8 @@ import (
 	"github.com/araddon/goperf/pb"
 	"github.com/araddon/goperf/th"
 	"github.com/araddon/thrift4go/lib/go/thrift"
-	"github.com/ugorji/go-msgpack/msgpack"
-	"launchpad.net/mgo/bson"
+	"github.com/ugorji/go-msgpack"
+	"labix.org/v2/mgo/bson"
 	"net/url"
 	"testing"
 
@@ -105,6 +105,7 @@ func init() {
 	msgpackTw, _ = msgpack.Marshal(tw)
 	enc := gob.NewEncoder(&gobTw)
 	_ = enc.Encode(tw)
+	//log.Println(string(gobTw.Bytes()))
 
 	buf := thrift.NewTMemoryBuffer()
 	thbp := thrift.NewTBinaryProtocol(buf, false, true)
@@ -176,7 +177,10 @@ func BenchmarkDecodingGobTweet(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		tw := Tweet{}
 		dec := gob.NewDecoder(&gobTw)
-		_ = dec.Decode(&tw)
+		err := dec.Decode(&tw)
+		if err != nil {
+			b.Fatalf("Error unmarshaling json: %v", err)
+		}
 	}
 }
 
@@ -186,12 +190,12 @@ func BenchmarkDecodingGobTweet(b *testing.B) {
 func BenchmarkEncodingBsonTweetStruct(b *testing.B) {
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = json.Marshal(&tw)
+		_, _ = bson.Marshal(&tw)
 	}
 }
 
-// BenchmarkEncodingBsonTweetStruct	   50000	     69149 ns/op
-// = 14,462/sec
+// BenchmarkEncodingBsonTweetStruct	   50000	     103165 ns/op
+// = 9,693/sec
 
 func BenchmarkDecodingBsonTweet(b *testing.B) {
 	b.StartTimer()
@@ -261,7 +265,7 @@ func BenchmarkDecodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		mtw := Tweet{}
-		msgpack.Unmarshal(msgpackTw, &mtw)
+		msgpack.Unmarshal(msgpackTw, &mtw, nil)
 	}
 }
 
@@ -271,31 +275,29 @@ func BenchmarkDecodingMPTweetStruct(b *testing.B) {
 func BenchmarkEncodingThriftTweetStruct(b *testing.B) {
 	b.StartTimer()
 	// presumably there is a faster/better way to do this?
-	thbp := thrift.NewTBinaryProtocol(thrift.NewTMemoryBuffer(), false, true)
+	tmem := thrift.NewTMemoryBuffer()
+	thbp := thrift.NewTBinaryProtocol(tmem, false, true)
 	for i := 0; i < b.N; i++ {
 		thtw.Write(thbp)
-		thriftTw, _ = thbp.ReadBinary()
+		_ = tmem.Bytes()
+		tmem.Reset()
 	}
 }
 
-// this has to be wrong right?  
-// BenchmarkEncodingThriftTweetStruct	  10	      100057600 ns/op
-// = 10/sec
+// BenchmarkEncodingThriftTweetStruct	  100000	      26294 ns/op
+// = 38,031/sec
 
-/*
 func BenchmarkDecodingThriftTweetStruct(b *testing.B) {
 
 	b.StartTimer()
-	buf := thrift.NewTMemoryBuffer()
-	thbp := thrift.NewTBinaryProtocol(buf, false, true)
-	//u := User{}
-	//json.Unmarshal([]byte(jsonUser), &u)
-	//bsonUser, _ = bson.Marshal(&tw)
-	//jsonUser = []byte(jsonUser)
+	tmem := thrift.NewTMemoryBuffer()
+	thbp := thrift.NewTBinaryProtocol(tmem, false, true)
 	for i := 0; i < b.N; i++ {
-		buf.Write(thriftTw)
+		tmem.Write(thriftTw)
 		tw := th.NewThriftTweet()
 		tw.Read(thbp)
 	}
 }
-*/
+
+// BenchmarkDecodingThriftTweetStruct	  20000	      74837 ns/op
+// = 74837/sec

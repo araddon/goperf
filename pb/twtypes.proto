@@ -14,6 +14,11 @@ message Tweet {
   optional string    id_str                   = 11;
   optional string    created_at               = 12;
   optional User      user                     = 13;
+  message Header {
+    optional string name = 1;
+    optional string value = 2;
+  }
+  repeated Header header = 14;
 }
 
 message User {
