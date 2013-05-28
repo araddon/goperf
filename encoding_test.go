@@ -17,7 +17,7 @@ import (
 )
 
 /*
-go test -bench="coding" 
+go test -bench="coding"
 go test -bench="Bson"
 
 */
@@ -104,7 +104,10 @@ func init() {
 	//log.Println(ptw2)
 	msgpackTw, _ = msgpack.Marshal(tw)
 	enc := gob.NewEncoder(&gobTw)
-	_ = enc.Encode(tw)
+	err := enc.Encode(tw)
+	if err != nil {
+		panic("error")
+	}
 	//log.Println(string(gobTw.Bytes()))
 
 	buf := thrift.NewTMemoryBuffer()
@@ -123,8 +126,8 @@ func BenchmarkEncodingJsonTweet(b *testing.B) {
 	}
 }
 
-//BenchmarkEncodingJsonTweet	    5000	    539056 ns/op
-// = 1855/sec
+//1.02 BenchmarkEncodingJsonTweet	    5000	    539056 ns/op = 1855/sec
+//1.10 BenchmarkEncodingJsonTweet	   10000	    137992 ns/op
 
 func BenchmarkEncodingJsonTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -134,8 +137,8 @@ func BenchmarkEncodingJsonTweetStruct(b *testing.B) {
 	}
 }
 
-//BenchmarkEncodingJsonTweetStruct	   50000	     69187 ns/op
-// = 14,454/sec
+//1.02 BenchmarkEncodingJsonTweetStruct	   50000	     69187 ns/op = 14,454/sec
+//1.10 BenchmarkEncodingJsonTweetStruct	  100000	     26531 ns/op = 37,692/sec
 
 func BenchmarkDecodingJsonTweet(b *testing.B) {
 	b.StartTimer()
@@ -145,8 +148,8 @@ func BenchmarkDecodingJsonTweet(b *testing.B) {
 	}
 }
 
-// BenchmarkEncodingJsonTweet	    5000	    510799 ns/op
-//  = 1,946/sec
+// 1.02 BenchmarkEncodingJsonTweet	    5000	    510799 ns/op  = 1,946/sec
+// 1.10 BenchmarkDecodingJsonTweet	   10000	    199803 ns/op
 
 func BenchmarkDecodingJsonTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -156,8 +159,8 @@ func BenchmarkDecodingJsonTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingJsonTweetStruct	    2000	   1137723 ns/op
-//  = 873/sec
+// 1.02 BenchmarkDecodingJsonTweetStruct	    2000	   1137723 ns/op  = 873/sec
+// 1.10 BenchmarkDecodingJsonTweetStruct	   10000	    194380 ns/op
 
 func BenchmarkEncodingGobTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -169,8 +172,8 @@ func BenchmarkEncodingGobTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkEncodingGobTweetStruct	   20000	     84273 ns/op
-// = 11,866/sec
+//1.02 BenchmarkEncodingGobTweetStruct	   20000	     84273 ns/op = 11,866/sec
+//1.10 BenchmarkEncodingGobTweetStruct	   50000	     32141 ns/op = 31,113/sec
 
 func BenchmarkDecodingGobTweet(b *testing.B) {
 	b.StartTimer()
@@ -184,8 +187,7 @@ func BenchmarkDecodingGobTweet(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingGobTweet	   500000	     3879 ns/op
-//  = 257,798/sec
+// BenchmarkDecodingGobTweet	   500000	     3879 ns/op  = 257,798/sec
 
 func BenchmarkEncodingBsonTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -194,8 +196,8 @@ func BenchmarkEncodingBsonTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkEncodingBsonTweetStruct	   50000	     103165 ns/op
-// = 9,693/sec
+// 1.02 BenchmarkEncodingBsonTweetStruct	   50000	     103165 ns/op =  9,693/sec
+// 1.10 BenchmarkEncodingBsonTweetStruct	  100000	      23573 ns/op = 42,421/sec
 
 func BenchmarkDecodingBsonTweet(b *testing.B) {
 	b.StartTimer()
@@ -205,8 +207,8 @@ func BenchmarkDecodingBsonTweet(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingBsonTweet	   10000	     120168 ns/op
-//  = 8264/sec
+// 1.02 BenchmarkDecodingBsonTweet	   10000	     120168 ns/op  = 8264/sec
+// 1.10 BenchmarkDecodingBsonTweet	   50000	     43841 ns/op
 
 func BenchmarkDecodingBsonTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -216,8 +218,8 @@ func BenchmarkDecodingBsonTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingBsonTweetStruct	   20000	     81859 ns/op
-//  = 12216/sec
+// 1.02 BenchmarkDecodingBsonTweetStruct	   20000	     81859 ns/op  = 12,216/sec
+// 1.10 BenchmarkDecodingBsonTweetStruct	  100000	     23506 ns/op  = 42,542/sec
 
 func BenchmarkDecodingQueryNV(b *testing.B) {
 	b.StartTimer()
@@ -227,8 +229,8 @@ func BenchmarkDecodingQueryNV(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingQueryNV	  100000	     16101 ns/op
-// = 62108/sec
+// 1.02 BenchmarkDecodingQueryNV	  100000	     16101 ns/op = 62108/sec
+// 1.10 BenchmarkDecodingQueryNV	  500000	      6084 ns/op =
 
 func BenchmarkEncodingPBTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -237,8 +239,8 @@ func BenchmarkEncodingPBTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkEncodingPBTweetStruct	  200000	      13181 ns/op
-// = 75,867/sec
+// 1.02 BenchmarkEncodingPBTweetStruct	  200000	      13181 ns/op =  75,867/sec
+// 1.10 BenchmarkEncodingPBTweetStruct	  500000	      4730 ns/op  = 164,366/sec
 
 func BenchmarkDecodingPBTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -248,8 +250,8 @@ func BenchmarkDecodingPBTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingPBTweetStruct	  100000	      18960 ns/op
-// = 52,743/sec
+// 1.02 BenchmarkDecodingPBTweetStruct	  100000	      18960 ns/op =  52,743/sec
+// 1.10 BenchmarkDecodingPBTweetStruct	  500000	       6969 ns/op = 143,493/sec
 
 func BenchmarkEncodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -258,8 +260,8 @@ func BenchmarkEncodingMPTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkEncodingMPTweetStruct	  10000	      120501 ns/op
-// = 8,330/sec
+// 1.02 BenchmarkEncodingMPTweetStruct	   10000	     120501 ns/op = 8,330/sec
+// 1.10 BenchmarkEncodingMPTweetStruct	  100000	      24138 ns/op
 
 func BenchmarkDecodingMPTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -269,8 +271,8 @@ func BenchmarkDecodingMPTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingMPTweetStruct	  10000	      102020 ns/op
-// = 9,802/sec
+// 1.02 BenchmarkDecodingMPTweetStruct	   10000	     102020 ns/op = 9,802/sec
+// 1.10 BenchmarkDecodingMPTweetStruct	   50000	     33395 ns/op
 
 func BenchmarkEncodingThriftTweetStruct(b *testing.B) {
 	b.StartTimer()
@@ -284,8 +286,8 @@ func BenchmarkEncodingThriftTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkEncodingThriftTweetStruct	  100000	      26294 ns/op
-// = 38,031/sec
+// 1.02 BenchmarkEncodingThriftTweetStruct	  100000	      26294 ns/op = 38,031/sec
+// 1.10 BenchmarkEncodingThriftTweetStruct	  100000	      20001 ns/op = 49,998/sec
 
 func BenchmarkDecodingThriftTweetStruct(b *testing.B) {
 
@@ -299,5 +301,5 @@ func BenchmarkDecodingThriftTweetStruct(b *testing.B) {
 	}
 }
 
-// BenchmarkDecodingThriftTweetStruct	  20000	      74837 ns/op
-// = 74837/sec
+// 1.02 BenchmarkDecodingThriftTweetStruct	   20000	     74837 ns/op = 13,362/sec
+// 1.10 BenchmarkDecodingThriftTweetStruct	   50000	     45650 ns/op = 21,906
